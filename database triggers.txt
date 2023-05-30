@@ -1,0 +1,64 @@
+hi  code is below
+.
+.
+.
+
+-- Create the 'info' database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS info;
+USE info;
+
+-- Create the 'borrower2' table
+CREATE TABLE IF NOT EXISTS borrower2 (
+  roll_no INT,
+  name VARCHAR(20),
+  date_of_issue DATE,
+  book_name VARCHAR(20),
+  status VARCHAR(20),
+  author VARCHAR(20)
+);
+
+-- Insert data into the 'borrower2' table
+INSERT INTO borrower2 VALUES
+  (1, 'nick', '2020-06-10', 'wings_of_fire', 'avaliable', 'APJ'),
+  (2, 'mira', '2020-05-11', 'leaves_life', 'not_avaliable', 'borwarkar'),
+  (3, 'rina', '2020-02-12', 'unusal', 'avaliable', 'johar'),
+  (4, 'harsha', '2020-06-20', 'skylimit', 'avaliable', 'ingale'),
+  (5, 'tej', '2020-04-20', 'highway', 'not_avaliable', 'klm');
+
+-- Create the 'audit1' table for logging
+CREATE TABLE IF NOT EXISTS audit1 (
+  roll_no INT,
+  name VARCHAR(20),
+  date_of_issue DATE,
+  book_name VARCHAR(20),
+  status VARCHAR(20),
+  author VARCHAR(20),
+  ts TIMESTAMP
+);
+
+-- Set the delimiter for creating triggers
+DELIMITER //
+
+-- Create the 'library' trigger for insert
+CREATE TRIGGER library AFTER INSERT ON borrower2 FOR EACH ROW
+BEGIN
+  INSERT INTO audit1 VALUES (NEW.roll_no, NEW.name, NEW.date_of_issue, NEW.book_name, NEW.status, NEW.author, CURRENT_TIMESTAMP);
+END//
+
+-- Create the 'library1' trigger for update
+CREATE TRIGGER library1 AFTER UPDATE ON borrower2 FOR EACH ROW
+BEGIN
+  INSERT INTO audit1 VALUES (NEW.roll_no, NEW.name, NEW.date_of_issue, NEW.book_name, NEW.status, NEW.author, CURRENT_TIMESTAMP);
+END//
+
+-- Reset the delimiter back to semicolon
+DELIMITER ;
+
+-- Test the triggers by updating a record
+UPDATE borrower2 SET roll_no = 8, book_name = 'leaf' WHERE name = 'xyz';
+
+-- Check the data in the 'borrower2' table
+SELECT * FROM borrower2;
+
+-- Check the data in the 'audit1' table
+SELECT * FROM audit1;

@@ -1,0 +1,29 @@
+hi code explaination is below
+..
+.
+
+Certainly! Let me explain the code in a simple way:
+
+1.The code begins by creating a database named 'info' if it doesn't already exist, and then selects that database for use.
+
+2.It creates a table called 'borrower2' to store information about borrowers and their books. The table has columns for roll number, name, date of issue, book name, status, and author.
+
+3.Some sample data is inserted into the 'borrower2' table.
+
+4.Another table called 'audit1' is created to track the changes made to the 'borrower2' table. It has similar columns as the 'borrower2' table along with a timestamp column.
+
+5.The code sets the delimiter to // to define the beginning and end of the trigger statements.
+
+6.Two triggers are created:
+
+The 'library' trigger is fired after an insert operation on the 'borrower2' table. It captures the new data and inserts a corresponding row into the 'audit1' table with the current timestamp.
+
+The 'library1' trigger is fired after an update operation on the 'borrower2' table. It also captures the new data and inserts a row into the 'audit1' table with the current timestamp.
+
+7.The delimiter is set back to a semicolon to end the trigger creation statements.
+
+8.A test is performed by updating a record in the 'borrower2' table.
+
+9.The updated data in the 'borrower2' table and the log entries in the 'audit1' table are selected and displayed.
+
+In summary, the code sets up a database with two tables: 'borrower2' to store borrower information and 'audit1' to log the changes made to the 'borrower2' table. Triggers are created to automatically capture and record the changes in the 'audit1' table whenever an insert or update operation is performed on the 'borrower2' table.
